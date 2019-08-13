@@ -1,0 +1,23 @@
+import time
+from multiprocessing import Pool
+
+def tes(para):
+    time.sleep(1)
+    return para*para
+
+if __name__ == "__main__":
+    testList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    print("顺序执行") # 顺序执行
+    e = time.time()
+    for i in testList:
+        tes(i)
+    e1 = time.time()
+    print("顺序执行时间：",int(e1-e))
+    print("多进程") # 创建多个进程，并行执行
+    pool = Pool(9) # 创建拥有5个进程数的进程池
+    multi = pool.map(tes,testList)
+    pool.close() # 关闭进程池，不再接受新的进程
+    pool.join() # 主进程堵塞等待子进程的退出
+    e2 = time.time()
+    print("并行进程执行时间：", int(e2-e1))
+    print(multi)
